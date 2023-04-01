@@ -1,0 +1,22 @@
+[{
+        "nome": "Vingadores",
+        "genero": "Ação/Nerd",
+        "descricao": "Filme da Marvel com super-heróis",
+        "nota": 5,
+        "foto":"vingadores.png"
+    },
+    {
+        "nome": "Vingadores 2",
+        "genero": "Ação/Nerd",
+        "descricao": "Filme da Marvel com super-heróis",
+        "nota": 5,
+        "foto":"vingadores.png"
+    },
+    {
+        "nome": "Vingadores 3",
+        "genero": "Ação/Nerd",
+        "descricao": "Filme da Marvel com super-heróis",
+        "nota": 5,
+        "foto":"vingadores.png"
+    }
+]
