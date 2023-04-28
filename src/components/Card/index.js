@@ -1,39 +1,48 @@
+import {
+  Button,
+  Flex,
+  Heading,
+  Image,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 import "./card.css";
-
-
 
 function Assitido({ javisto }) {
   if (javisto) {
-    return <p>Assistido ✔</p>;
+    return <Text>Assistido ✔</Text>;
   }
-  return <p className="item">Não assistido</p>;
+  return <Text>Não assistido</Text>;
 }
 
 export default function Card({ filme }) {
   return (
-    <div className="col">
-      <div className="card">
-        <img src={'/assets/images/' + filme.foto} alt={filme.nome} className="card-img-top" />
-        <div className="card-body">
-          <h5 className="card-title">{filme.nome} ({filme.ano}) </h5>
-          <p>Sinopse</p>
-          <p className="card-text">{filme.descricao}</p>
-          <p>{filme.duracao}</p>
-          <p>{filme.genero}</p>
-          <p>{filme.nota}</p>
-          <Assitido
-            javisto={filme.assistido}
-          />
-          <a
-            href={`/detalhes/${filme.nome}`}
-          >
-            <div className="btn btn-primary">
-              Detalhes
-            </div>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  )
+    <Flex
+      roundedTop={"lg"}
+      justify="space-between"
+      direction="column"
+      border="1px"
+      borderColor="gray.200"
+      pb={4}
+    >
+      <Image
+        roundedTop={"lg"}
+        src={filme.poster}
+        alt={filme.nome}
+        className="card-img-top"
+      />
+      <Flex direction="column" gap={2} p={2} justify="space-between">
+        <Heading fontSize="18px">
+          {filme.titulo} ({filme.ano})
+        </Heading>
+        <SimpleGrid gap={2}>
+          <Text>{filme.nota}</Text>
+          <Assitido javisto={filme.assistido} />
+        </SimpleGrid>
+        <a href={`/detalhes/${filme.id}`}>
+          <Button colorScheme="blue">Detalhes</Button>
+        </a>
+      </Flex>
+    </Flex>
+  );
 }

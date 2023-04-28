@@ -2,16 +2,24 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Title from "./../components/Title/index";
 import Comments from "./../components/Comments/index";
-import filmes from "../db/db.json";
-import { Flex, Heading, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Heading,
+  Image,
+  SimpleGrid,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
+import { getMovieDetails } from "../util/db";
 
 function Detalhes() {
   const { filme } = useParams();
 
-  const filmeEscolhido = filmes.find((f) => f.nome === filme);
+  const details = getMovieDetails(+filme);
 
-  if (!filmeEscolhido) {
-    return <div class="container">Filme não encontrado.</div>;
+  if (details.status === "error") {
+    return <div className="container">Filme não encontrado.</div>;
   }
 
   return (
@@ -19,22 +27,34 @@ function Detalhes() {
       <Title title={"Detalhes"} text="" />
 
       <Flex w="full" justify="center">
-        <SimpleGrid w="container.xl" columns={2}>
-          <Flex flex={1} justify="center">
-            <Image
-              h={400}
-              src={"/assets/images/" + filmeEscolhido.foto}
-              alt={filmeEscolhido.nome}
-            />
-          </Flex>
-          <Flex direction="column" flex={2}>
-            <Heading>{filmeEscolhido.nome}</Heading>
+        {details.status === "loading" && <Spinner />}
+        {details.status === "success" && (
+          <SimpleGrid w="container.xl" columns={2}>
+            <Flex flex={1} justify="center">
+              <Image
+                h={400}
+                src={details.data.poster}
+                alt={details.data.titulo}
+              />
+            </Flex>
+            <Flex direction="column" flex={2}>
+              <Heading>{details.data.titulo}</Heading>
 
-            <Text>{filmeEscolhido.descricao}</Text>
-            <Text>{filmeEscolhido.genero}</Text>
-            <Comments filme={filmeEscolhido.nome} />
-          </Flex>
-        </SimpleGrid>
+              <Text>{details.data.sinopse}</Text>
+              <Text>Ano: {details.data.ano}</Text>
+              <Text fontWeight="bold">
+                {details.data.assistido && "Você já assistiu este filme"}
+              </Text>
+
+              <a href={`/assistir/${details.data.id}`}>
+                <Button colorScheme="blue">
+                  {filme.assistido ? "Assistido" : "Assistir"}
+                </Button>
+              </a>
+              <Comments filme={details.data.id} />
+            </Flex>
+          </SimpleGrid>
+        )}
       </Flex>
     </div>
   );
